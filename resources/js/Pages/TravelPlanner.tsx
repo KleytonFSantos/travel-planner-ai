@@ -1,16 +1,29 @@
-import { Head } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
+import { usePage } from "@inertiajs/react";
 import TextInput from '@/Components/TextInput';
 import DatepickerPlanner from '@/Components/DatepickerPlanner';
+import PrimaryButton from "@/Components/PrimaryButton";
 
 
-export default function TravelPlanner() {
-
+export default function TravelPlanner({ planner }: any) {
+    const { data, setData, get, processing, errors} = useForm({
+        locale: '',
+        startDate: new Date(),
+        endDate: new Date(),
+    })
     const handleChangeInicialDate = (selectedDate: Date) => {
         console.log('handleChangeInitialDate', selectedDate)
+        setData('startDate', selectedDate);
     }
 
     const handleChangeFinalDate = (selectedDate: Date) => {
-        console.log('handleChangeFinalDate', selectedDate)
+        setData('endDate', selectedDate);
+    }
+
+    const handleSubmit: any = (e: SubmitEvent) => {
+        e.preventDefault();
+        const url = `/search?locale=${data.locale}&startDate=${data.startDate}&endDate=${data.endDate}`
+        get(url);
     }
 
     return (
@@ -18,17 +31,17 @@ export default function TravelPlanner() {
         <Head title="Travel Planner" />
         <div className="relative isolate overflow-hidden h-screen bg-gray-900 py-16 sm:py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none   ">
+            <form className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none" onSubmit={handleSubmit}>
               <div className="max-w-xl lg:max-w-lg">
                 <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Travel Planner AI</h2>
                 <p className="mt-4 text-lg leading-8 text-gray-300">
-                  Escolha a cidade, a data de chegada e saída para que possamos criar seu plano de viagem.
+                    Escolha a cidade, a data de chegada e saída para que possamos criar seu plano de viagem.
                 </p>
               </div>
-              <div className="mx-auto grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 lg:max-w-none   ">
+              <div className="mx-auto grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 lg:max-w-none" >
                 <div className=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Digite o local da viagem</h5>
-                    <TextInput className='mt-4 w-full p-4 border-zinc-500'/>
+                    <TextInput className='mt-4 w-full p-4 border-zinc-500' onChange={e => setData('locale', e.target.value)}/>
                 </div>
                 <div className=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Escolha a data de início da viagem</h5>
@@ -49,8 +62,30 @@ export default function TravelPlanner() {
                     </div>
                 </div>
               </div>
-            </div>
+                <div className='mx-auto flex w-full justify-center items-center'>
+                    <PrimaryButton className='py-4 w-96 flex justify-center bg-blue-800'>
+                        { processing ? 'Aguarde ...' : 'Planejar'}
+                    </PrimaryButton>
+                </div>
+            </form>
           </div>
+            { planner && (
+                    <div
+                        className="mx-auto max-w-7xl px-6 lg:px-8 bg-zinc-200 rounded mt-8">
+                        <a href="#">
+                            <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt=""/>
+                        </a>
+                        <div className="p-5">
+                            <a href="#">
+                                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                    Plano de viagem
+                                </h5>
+                            </a>
+                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{ planner }</p>
+                        </div>
+                    </div>
+                )
+            }
           <div className="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
             <div
               className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"

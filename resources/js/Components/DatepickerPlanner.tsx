@@ -35,10 +35,6 @@ const DatepickerPlanner = ({ text, handleChange }: PropsType) => {
         defaultDate: new Date(),
         language: "pt-BR",
     }
-    //
-    // const handleChange = (selectedDate: Date) => {
-	// 	console.log(selectedDate)
-	// }
 
 	const handleClose = (state: boolean) => {
 		setShow(state)
