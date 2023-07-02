@@ -3,13 +3,14 @@ import Datepicker from "tailwind-datepicker-react"
 
 type PropsType = {
     text: string
+    handleChange?: any,
 }
 
-const DatepickerPlanner = ({ text }: PropsType) => {
+const DatepickerPlanner = ({ text, handleChange }: PropsType) => {
     const [show, setShow] = useState(false)
 
     const options = {
-        title: {text},
+        title: text,
         autoHide: true,
         todayBtn: false,
         clearBtn: true,
@@ -27,17 +28,17 @@ const DatepickerPlanner = ({ text }: PropsType) => {
         },
         icons: {
             // () => ReactElement | JSX.Element
-            prev: () => <span>Previous</span>,
-            next: () => <span>Next</span>,
+            prev: () => <span> {'<'} </span>,
+            next: () => <span> {'>'} </span>,
         },
         datepickerClassNames: "top-12",
         defaultDate: new Date(),
         language: "pt-BR",
     }
-
-    const handleChange = (selectedDate: Date) => {
-		console.log(selectedDate)
-	}
+    //
+    // const handleChange = (selectedDate: Date) => {
+	// 	console.log(selectedDate)
+	// }
 
 	const handleClose = (state: boolean) => {
 		setShow(state)
