@@ -6,13 +6,9 @@ class PromptResolver
 {
     public function getMessage($request): string
     {
-        $locale = $request['locale'];
-        $startDate = $request['startDate'];
-        $endDate = $request['endDate'];
-
         return 'Faça um plano de viagem para '
-            .$locale.' entre os dias '
-            .$startDate.' até '
-            .$endDate;
+            .$request['locale'].' entre os dias '
+            .$request['startDate'].' até '
+            .$request['endDate'];
     }
 }
