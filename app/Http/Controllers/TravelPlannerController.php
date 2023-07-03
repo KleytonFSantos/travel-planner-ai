@@ -27,8 +27,6 @@ class TravelPlannerController extends Controller
             return Inertia::render('TravelPlanner', [
                 'planner' => $planner,
             ]);
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            return back($invalidArgumentException->getCode())->with(['message' => 'Ops! Ocorreu um erro inesperado!']);
         } catch (Exception $exception) {
             return back($exception->getCode())->with(['message' => 'Ops! Ocorreu um erro inesperado!']);
         }
