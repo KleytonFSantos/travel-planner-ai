@@ -22,7 +22,7 @@ const DatepickerPlanner = ({ text, handleChange }: PropsType) => {
             clearBtn: "",
             icons: "",
             text: "",
-            input: "",
+            input: "py-5",
             inputIcon: "",
             selected: "",
         },

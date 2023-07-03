@@ -18,6 +18,7 @@ class TravelPlannerRequest extends FormRequest
             'endDate' => $endDate->format('d-m-Y'),
         ]);
     }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -36,8 +37,7 @@ class TravelPlannerRequest extends FormRequest
         return [
             'locale' => 'string|min:2|max:256',
             'startDate' => 'string|min:2|max:256',
-            'endDate' => 'string|min:2|max:256'
+            'endDate' => 'string|min:2|max:256',
         ];
     }
-
 }

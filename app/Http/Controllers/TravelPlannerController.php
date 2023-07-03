@@ -3,38 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TravelPlannerRequest;
-use Carbon\Carbon;
+use App\Http\Services\OpenApiResponseService;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use OpenAI\Laravel\Facades\OpenAI;
 
 class TravelPlannerController extends Controller
 {
-    CONST MODEL = 'text-davinci-003';
-
-    public function index(TravelPlannerRequest $request): Response
+    public function index(): Response
     {
         return Inertia::render('TravelPlanner');
     }
 
-    public function show(TravelPlannerRequest $request): Response
-    {
-         $locale = $request->validated('locale');
-         $startDate = $request->validated('startDate');
-         $endDate = $request->validated('endDate');
+    public function show(
+        TravelPlannerRequest $request,
+        OpenApiResponseService $apiResponseService
+    ): RedirectResponse|Response {
+        try {
+            $planner = $apiResponseService->getResponse($request->validated());
 
-         $result = OpenAI::completions()->create([
-             'model' => self::MODEL,
-             'max_tokens' => 500,
-             'prompt' =>
-                 'Faça um plano de viagem para '
-                 . $locale . ' entre os dias  '
-                 . $startDate . ' até '
-                 . $endDate,
-         ]);
-
-        return Inertia::render('TravelPlanner',         [
-            'planner' => $result['choices'][0]['text']
-        ]);
+            return Inertia::render('TravelPlanner', [
+                'planner' => $planner,
+            ]);
+        } catch (\Exception $exception) {
+            return back($exception->getCode())->withErrors($exception->getMessage());
+        }
     }
 }
