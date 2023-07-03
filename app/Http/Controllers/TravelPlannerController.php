@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TravelPlannerRequest;
 use App\Http\Services\OpenApiResponseService;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use InvalidArgumentException;
 
 class TravelPlannerController extends Controller
 {
@@ -25,8 +27,10 @@ class TravelPlannerController extends Controller
             return Inertia::render('TravelPlanner', [
                 'planner' => $planner,
             ]);
-        } catch (\Exception $exception) {
-            return back($exception->getCode())->withErrors($exception->getMessage());
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return back($invalidArgumentException->getCode())->with(['message' => 'Ops! Ocorreu um erro inesperado!']);
+        } catch (Exception $exception) {
+            return back($exception->getCode())->with(['message' => 'Ops! Ocorreu um erro inesperado!']);
         }
     }
 }
