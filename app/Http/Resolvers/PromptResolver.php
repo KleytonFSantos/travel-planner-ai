@@ -2,13 +2,15 @@
 
 namespace App\Http\Resolvers;
 
+use App\Http\DTO\PromptMessageDto;
+
 class PromptResolver
 {
-    public function getMessage($request): string
+    public function getMessage(PromptMessageDto $promptMessageDto): string
     {
         return 'Faça um plano de viagem para '
-            .$request['locale'].' entre os dias '
-            .$request['startDate'].' até '
-            .$request['endDate'];
+            .$promptMessageDto->getLocale().' entre os dias '
+            .$promptMessageDto->getStartDate().' até '
+            .$promptMessageDto->getEndDate();
     }
 }

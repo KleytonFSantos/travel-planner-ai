@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use InvalidArgumentException;
 
 class TravelPlannerController extends Controller
 {
