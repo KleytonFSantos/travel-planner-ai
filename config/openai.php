@@ -14,6 +14,8 @@ return [
 
     'api_key' => env('OPENAI_API_KEY'),
     'organization' => env('OPENAI_ORGANIZATION'),
+    'model' => env('OPEN_AI_MODEL'),
+    'max_tokens' => 500,
 
     /*
     |--------------------------------------------------------------------------

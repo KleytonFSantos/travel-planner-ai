@@ -7,10 +7,6 @@ use OpenAI\Laravel\Facades\OpenAI;
 
 class OpenApiResponseService
 {
-    const MODEL = 'text-davinci-003';
-
-    const MAX_TOKENS = 500;
-
     public function __construct(private readonly PromptResolver $promptResolver)
     {
     }
@@ -20,8 +16,8 @@ class OpenApiResponseService
         $promptMessage = $this->promptResolver->getMessage($request);
 
         $result = OpenAI::completions()->create([
-            'model' => self::MODEL,
-            'max_tokens' => self::MAX_TOKENS,
+            'model' => config('openai.model'),
+            'max_tokens' => config('openai.max_tokens'),
             'prompt' => $promptMessage,
         ]);
 

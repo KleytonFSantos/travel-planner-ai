@@ -30,8 +30,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/planner', [TravelPlannerController::class, 'index'])->name('index');
-Route::get('/search', [TravelPlannerController::class, 'show']);
+Route::controller(TravelPlannerController::class)->group(function () {
+    Route::get('/planner', 'index')->name('index');
+    Route::get('/search', 'show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
