@@ -40,4 +40,13 @@ class TravelPlannerRequest extends FormRequest
             'endDate' => 'string|min:2|max:256',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'locale.string' => 'Digite um local válido',
+            'startDate.string' => 'Escolha uma data válido',
+            'endDate.string' => 'Escolha uma data válido',
+        ];
+    }
 }

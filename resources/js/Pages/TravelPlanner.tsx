@@ -7,14 +7,16 @@ import CalendarIcon from "@/Components/CalendarIcon";
 import PageHero from "@/Components/PageHero";
 import AspectImageBackground from "@/Components/AspectImageBackground";
 import ResponseCard from "@/Components/ResponseCard";
+import InputError from "@/Components/InputError";
 
 
-export default function TravelPlanner({ planner }: any) {
+export default function TravelPlanner({ planner, ...props }: any, ) {
     const { data, setData, get, processing, errors} = useForm({
         locale: '',
         startDate: new Date(),
         endDate: new Date(),
     })
+
     const handleChangeInicialDate = (selectedDate: Date) => {
         console.log('handleChangeInitialDate', selectedDate)
         setData('startDate', selectedDate);
@@ -39,6 +41,7 @@ export default function TravelPlanner({ planner }: any) {
               <PageHero />
               <div className="mx-auto grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 lg:max-w-none" >
                   <Card text='Diga o local da viagem'>
+                      <InputError message={props.errors?.locale}/>
                       <TextInput
                           className='mt-4 w-full p-4 border-zinc-500'
                           onChange={
@@ -47,14 +50,16 @@ export default function TravelPlanner({ planner }: any) {
                       />
                   </Card>
                   <Card text='Escolha a data de chegada' icon={<CalendarIcon />}>
+                      <InputError message={props.errors?.startDate as string}/>
                       <DatepickerPlanner text='Data Inicial' handleChange={handleChangeInicialDate}/>
                   </Card>
                   <Card text='Escolha a data de partida' icon={<CalendarIcon />}>
+                      <InputError message={props.errors?.endDate as string}/>
                       <DatepickerPlanner text='Data Final' handleChange={handleChangeFinalDate}/>
                   </Card>
               </div>
               <div className='mx-auto flex w-full justify-center items-center'>
-                  <PrimaryButton className='py-4 w-96 flex justify-center bg-blue-800'>
+                  <PrimaryButton className='py-4 w-96 flex justify-center bg-blue-600'>
                       { processing ? 'Aguarde ...' : 'Planejar'}
                   </PrimaryButton>
               </div>
